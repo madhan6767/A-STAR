@@ -1,6 +1,6 @@
 <h1>ExpNo 4 : Implement A* search algorithm for a Graph</h1> 
-<h3>Name:       </h3>
-<h3>Register Number:           </h3>
+<h3>Name: Madhan M</h3>
+<h3>Register Number:212225040213</h3>
 <H3>Aim:</H3>
 <p>To ImplementA * Search algorithm for a Graph using Python 3.</p>
 <H3>Algorithm:</H3>
@@ -49,6 +49,77 @@
     end (while loop)
 
 ``````
+## PROGRAM
+```py
+from collections import defaultdict
+H_dist = {}
+def aStarAlgo(start_node, stop_node):
+    open_set = set([start_node])
+    closed_set = set()
+    g = {}
+    parents = {}
+    g[start_node] = 0
+    parents[start_node] = start_node
+    while len(open_set) > 0:
+        n = None
+        for v in open_set:
+            if n is None or g[v] + heuristic(v) < g[n] + heuristic(n):
+                n = v
+        if n is None:
+            print("Path does not exist!")
+            return None
+        if n == stop_node:
+            path = []
+            while parents[n] != n:
+                path.append(n)
+                n = parents[n]
+            path.append(start_node)
+            path.reverse()
+            print("Path found: {}".format(path))
+            return path
+        for (m, weight) in get_neighbors(n):
+            if m not in open_set and m not in closed_set:
+                open_set.add(m)
+                parents[m] = n
+                g[m] = g[n] + weight
+            else:
+                if g[m] > g[n] + weight:
+                    g[m] = g[n] + weight
+                    parents[m] = n
+                    if m in closed_set:
+                        closed_set.remove(m)
+                        open_set.add(m)
+        open_set.remove(n)
+        closed_set.add(n)
+    print("Path does not exist!")
+    return None
+def get_neighbors(v):
+    return Graph_nodes.get(v, [])
+def heuristic(n):
+    return H_dist.get(n, 0)
+graph = defaultdict(list)
+n, e = map(int, input().split())
+for _ in range(e):
+    while True:
+        line = input().strip()
+        if line:
+            break
+    u, v, cost = line.split()
+    cost = float(cost)
+    graph[u].append((v, cost))
+    graph[v].append((u, cost)) 
+for _ in range(n):
+    while True:
+        line = input().strip()
+        if line:
+            break
+    node, h = line.split()
+    H_dist[node] = float(h)
+Graph_nodes = graph
+start_node = max(H_dist, key=H_dist.get) 
+goal_node = min(H_dist, key=H_dist.get)   
+aStarAlgo(start_node, goal_node)
+```
 
 <hr>
 <h2>Sample Graph I</h2>
@@ -89,6 +160,7 @@ J 0 <br>
 <hr>
 Path found: ['A', 'F', 'G', 'I', 'J']
 
+<img width="553" height="592" alt="image" src="https://github.com/user-attachments/assets/b6f33770-9d5f-40ff-96e8-d88cba141a78" />
 
 <hr>
 <h2>Sample Graph II</h2>
@@ -116,4 +188,7 @@ G 0 <br>
 <hr>
 <h2>Sample Output</h2>
 <hr>
-Path found: ['A', 'E', 'D', 'G']
+<img width="546" height="342" alt="image" src="https://github.com/user-attachments/assets/2f54ce95-9e3a-46eb-b8f9-1fcc291ee954" />
+
+## Result:
+The Python program to Implement A * Search algorithm for a Graph has been executed successfully.
